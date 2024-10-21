@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> Circular Stopwatch</title>
+
+  <style>
+    /* Reset CSS */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .container {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* SVG Circle Design */
+    svg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg); /* Start from top */
+    }
+
+    circle {
+      fill: none;
+      stroke-width: 15;
+      stroke-linecap: round;
+      stroke-dasharray: 943; /* Circumference of the circle */
+      stroke-dashoffset: 943; /* Hide the stroke initially */
+      transition: stroke-dashoffset 0.1s linear;
+    }
+
+    .base-circle {
+      stroke: rgba(255, 255, 255, 0.1);
+    }
+
+    .progress-circle {
+      stroke: #4bc0c8;
+      stroke-dashoffset: 943;
+    }
+
+    /* Timer Display */
+    .display {
+      z-index: 1;
+      font-size: 3.5rem;
+      font-weight: 600;
+      color: #fff;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 20px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .controls button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      background-color: #4bc0c8;
+      color: #000;
+      font-weight: bold;
+      transition: transform 0.2s, background-color 0.3s;
+    }
+
+    .controls button:hover {
+      background-color: #3a9ca3;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- SVG Circle -->
+    <svg>
+      <circle class="base-circle" cx="200" cy="200" r="150" />
+      <circle class="progress-circle" cx="200" cy="200" r="150" />
+    </svg>
+
+    <!-- Display -->
+    <div class="display" id="display">00:00:00</div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button id="start">Start</button>
+      <button id="stop">Stop</button>
+      <button id="reset">Reset</button>
+    </div>
+  </div>
+
+  <script>
+    let minutes = 0, seconds = 0, milliseconds = 0, interval;
+    const display = document.getElementById('display');
+    const progressCircle = document.querySelector('.progress-circle');
+    const totalLength = progressCircle.getTotalLength(); // Circumference of the circle
+
+    function updateDisplay() {
+      display.textContent = 
+        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(2, '0')}`;
+    }
+
+    function updateCircle() {
+      const progress = (seconds % 60) / 60; // Calculate progress as a fraction
+      const offset = totalLength - progress * totalLength;
+      progressCircle.style.strokeDashoffset = offset;
+    }
+
+    function startTimer() {
+      if (interval) return;
+
+      interval = setInterval(() => {
+        milliseconds++;
+        if (milliseconds === 100) {
+          milliseconds = 0;
+          seconds++;
+          if (seconds === 60) {
+            seconds = 0;
+            minutes++;
+          }
+        }
+        updateDisplay();
+        updateCircle();
+      }, 10);
+    }
+
+    function stopTimer() {
+      clearInterval(interval);
+      interval = null;
+    }
+
+    function resetTimer() {
+      stopTimer();
+      minutes = 0;
+      seconds = 0;
+      milliseconds = 0;
+      updateDisplay();
+      progressCircle.style.strokeDashoffset = totalLength;
+    }
+
+    document.getElementById('start').addEventListener('click', startTimer);
+    document.getElementById('stop').addEventListener('click', stopTimer);
+    document.getElementById('reset').addEventListener('click', resetTimer);
+  </script>
+</body>
+</html>

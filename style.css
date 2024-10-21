@@ -1,0 +1,113 @@
+/* Reset CSS */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+  background-color: #f0e68c; /* Vintage paper yellow background */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Watch Container */
+.watch-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Outer Frame of Watch */
+.outer-frame {
+  width: 300px;
+  height: 300px;
+  border: 12px solid black;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 60%, #e0e0e0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+/* Watch Face */
+.watch-face {
+  position: relative;
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  background: #fafafa;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Center Circle */
+.center-circle {
+  width: 15px;
+  height: 15px;
+  background-color: black;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Hands of the Watch */
+.hand {
+  width: 2px;
+  height: 40%;
+  background-color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: 50% 100%;
+  transition: transform 0.5s ease;
+}
+
+.second-hand {
+  height: 45%;
+  background-color: red;
+}
+
+.minute-hand {
+  height: 35%;
+}
+
+/* Digital Time Display */
+.time-display {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+  color: black;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+/* Control Buttons */
+.controls {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.controls button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.controls button:hover {
+  background-color: darkred;
+}
